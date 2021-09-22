@@ -1,1 +1,40 @@
 /* style.css */
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    font-size: 32px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 700;
+}
+.calculator {
+    background-color: gray;
+    width: 500px;
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+}
+.header {
+    background-color: black;
+    height: 180px;
+}
+.output {
+    background-color: lightgray;
+    color: black;
+    height: 50px;
+    margin: 100px auto 0;
+    width: 90%;
+    text-align: right;
+}
+.keypad {
+    display: flex;
+    flex-direction: column;
+}
+button {
+    font-size: 32px;
+    width: 100px;
+    height: 80px;
+}
+#equals {
+    width: 200px;
+}
