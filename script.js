@@ -35,18 +35,32 @@ function updateDisplay() {
     display.textContent = calculator.displayValue;
 }
 
+function inputDigit(digit) {
+    // Update calculator display with new number
+    calculator.displayValue = (calculator.displayValue === '0' ? digit : calculator.displayValue + digit);
+}
+
+function inputDecimal() {
+    // Check that there is a non-zero first number and not already a decimal in the number
+    if (calculator.displayValue !== '0' && !calculator.displayValue.includes('.')) {
+        calculator.displayValue += '.';
+    }
+}
+
 // Respond to different types of buttons
 const buttons = document.querySelectorAll('button');
 buttons.forEach(button => {
     button.addEventListener('click', () => {
         if (button.classList.contains('num')) {
-            console.log(button.textContent);
+            inputDigit(button.textContent);
+            updateDisplay();
         }
         if (button.classList.contains('operator')) {
             console.log(button.id);
         }
         if (button.id === 'decimal') {
-            console.log(button.id)
+            inputDecimal();
+            updateDisplay();
         }
         if (button.id === 'equals') {
             console.log(button.textContent);
