@@ -32,13 +32,6 @@ function addToDisplay(val) {
     display.textContent = update;
 }
 
-// Function to update the equation output
-function addToEquationDisplay(val) {
-    let currentDisplay = document.querySelector('#calculation').textContent
-    let newDisplay = currentDisplay + val;
-    equationDisplay.textContent = newDisplay;
-}
-
 const display = document.querySelector('#display');
 const equationDisplay = document.querySelector('#calculation')
 
@@ -55,17 +48,31 @@ numButtons.forEach(button => {
     })
 });
 
+let entry1
+let operation
+let entry2
+
 // Check for operator button press and get id of respective button
 const operButtons = document.querySelectorAll('button.operator');
-console.log(operButtons);
 operButtons.forEach(button => {
     button.addEventListener('click', () => {
-        let entry1 = display.textContent;
-        let operator = button.id;
-        console.log(entry1, operator);
-        clear();
+        if (display.textContent) {
+            entry1 = display.textContent;
+            operation = button.id;
+            console.log(entry1, operation);
+            clear();
+        }
     })
 })
 
-// displayOutput('blah blah')
-equationDisplay.textContent = ''
+// Check for equals button press and output answer
+const equalButton = document.querySelector('#equals');
+equalButton.addEventListener('click', () => {
+    if (display.textContent) { // Check whether there has been any input since an operator button pressed
+        entry2 = display.textContent;
+        console.log(entry2);
+        console.log(entry1);
+        console.log(operation, typeof operation);
+        console.log(operate(entry1, entry2, operation)); // Can't call the operation function when operation is a string...
+    }
+})
