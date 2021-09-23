@@ -55,9 +55,17 @@ numButtons.forEach(button => {
     })
 });
 
-// Check for operator button press and get textContent of respective button
+// Check for operator button press and get id of respective button
 const operButtons = document.querySelectorAll('button.operator');
 console.log(operButtons);
+operButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        let entry1 = display.textContent;
+        let operator = button.id;
+        console.log(entry1, operator);
+        clear();
+    })
+})
 
 // displayOutput('blah blah')
 equationDisplay.textContent = ''
