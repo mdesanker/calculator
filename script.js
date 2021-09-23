@@ -45,7 +45,9 @@ function clearDisplay() {
 }
 
 function addToDisplay(val) {
-    if (entry1 === result) {
+    if (continueCalc) {
+        // entry1 = parseFloat(display.textContent);
+        // entry2 = '';
         clearDisplay();
     }
     let current = display.textContent;
@@ -81,6 +83,8 @@ decimalButton.addEventListener('click', () => {
     }
 })
 
+//////////////////////////////////////////////////////////////////////////////
+//This calculator only operates on the last two numbers passed to the function
 // // Check for operator button press and get id of respective button
 // const operButtons = document.querySelectorAll('button.operator');
 // operButtons.forEach(button => {
@@ -142,4 +146,41 @@ decimalButton.addEventListener('click', () => {
 
 /////////////////////////////////////////////////////////////////////////
 // Separate equal and operator buttons for simplicity (hopefully)
+let continueCalc = false;
 
+const operButtons = document.querySelectorAll('button.operator');
+operButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        if (display.textContent && !entry1) {
+            entry1 = parseFloat(display.textContent);
+            operation = button.id;
+            clearDisplay();
+            console.log('e1', entry1);
+            console.log('op', operation);
+        } else if (display.textContent && entry1 && operation) {
+            entry2 = parseFloat(display.textContent);
+            console.log('e2', entry2);
+            result = operate(entry1, entry2, operation);
+            console.log('result', result);
+            display.textContent = result;
+            entry1 = parseFloat(result);
+            entry2 = '';
+            result = '';
+            console.log('result', result);
+            continueCalc = true;
+        } else if (display.textContent && result) {
+
+        }
+    })
+})
+
+const equalButton = document.querySelector('#equals');
+equalButton.addEventListener('click', () => {
+    if (entry1 && operation && display.textContent) {
+        entry2 = parseFloat(display.textContent);
+        console.log(entry2);
+        result = operate(entry1, entry2, operation);
+        display.textContent = result;
+        console.log('result', result);
+    }
+})
