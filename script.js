@@ -23,7 +23,7 @@ function operate(a, b, operator) {
 
 function clear() {
     display.textContent = '';
-    equationDisplay.textContent = '';
+    // equationDisplay.textContent = '';
 }
 
 function addToDisplay(val) {
@@ -41,7 +41,10 @@ function addToEquationDisplay(val) {
 
 const display = document.querySelector('#display');
 const equationDisplay = document.querySelector('#calculation')
+
+// Clear button functionality
 const clearButton = document.querySelector('#clear');
+clearButton.addEventListener('click', clear);
 
 // Check for number button press and get textContent of respective button
 const numButtons = document.querySelectorAll('button.num');
