@@ -70,6 +70,12 @@ numButtons.forEach(button => {
 });
 
 // Add decimal button functionality
+const decimalButton = document.querySelector('#decimal');
+decimalButton.addEventListener('click', () => {
+    if (display.textContent) {
+        addToDisplay('.');
+    }
+})
 
 // // Check for operator button press and get id of respective button
 // const operButtons = document.querySelectorAll('button.operator');
@@ -93,18 +99,20 @@ numButtons.forEach(button => {
 //     }
 // })
 
+//////////////////////////////////////////////////////////////////////////////
+
 // Might need to merge above functions to get answer to compute after 2 numbers have been entered
 const equateButtons = document.querySelectorAll('.oper');
 equateButtons.forEach(button => {
     button.addEventListener('click', () => {
         if (display.textContent && entry1 && operation) {  // Number on display and number already stored
-            entry2 = parseInt(display.textContent);
+            entry2 = parseFloat(display.textContent);
             display.textContent = operate(entry1, entry2, operation);
             entry1 = display.textContent;
             operation = button.id;
             // Need to make sure next button press starts entry2, not tacks on
         } else if (display.textContent) {  // Only number on screen so far
-            entry1 = parseInt(display.textContent);
+            entry1 = parseFloat(display.textContent);
             console.log(entry1);
             operation = button.id;
             clearDisplay();
