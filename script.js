@@ -34,10 +34,9 @@ function operate(a, b, operator) {
     }
 }
 
-
 // Create calculator object
 const calculator = {
-    displayValue: '',
+    displayValue: '0',
     firstOperand: null,
     waitingForSecondOperand: false,
     operator: null,
@@ -50,7 +49,12 @@ function updateDisplay() {
 }
 
 function inputDigit(digit) {
-    calculator.displayValue = (calculator.displayValue === '' ? digit : calculator.displayValue + digit);
+    if (calculator.waitingForSecondOperand) {
+        calculator.displayValue = digit;
+        calculator.waitingForSecondOperand = false;
+    } else {
+        calculator.displayValue = (calculator.displayValue === '0' ? digit : calculator.displayValue + digit);
+    }
 }
 
 function inputDecimal() {
@@ -61,21 +65,30 @@ function inputDecimal() {
 }
 
 function clearCalulator() {
-
+    calculator.displayValue = '';
+    calculator.firstOperand = null;
+    calculator.waitingForSecondOperand = false;
+    calculator.operator = null;
 }
 
 function handleOperator(nextOperator) {
-    if (calculator.operator === null && calculator.displayValue !== '') {
+    if (calculator.operator && calculator.waitingForSecondOperand) {
+        calculator.operator = nextOperator;
+        return;
+    }
+    if (calculator.operator === null && calculator.displayValue !== '0') {
         calculator.firstOperand = parseFloat(calculator.displayValue);
         calculator.displayValue = '';
         calculator.operator = nextOperator;
-        // calculator.waitingForSecondOperand = true;
+        calculator.waitingForSecondOperand = true;
     } else if (calculator.operator) {
-        const result = operate(calculator.firstOperand, calculator.displayValue, calculator.operator);
-        calculator.displayValue = result;
+        const result = operate(parseFloat(calculator.firstOperand), calculator.displayValue, calculator.operator);
+        calculator.displayValue = String(result);
         calculator.firstOperand = result;
     }
 }
+
+updateDisplay();
 
 // Respond to different types of buttons
 const buttons = document.querySelectorAll('button');
@@ -99,7 +112,9 @@ buttons.forEach(button => {
             console.log(button.textContent);
         }
         if (button.id === 'clear') {
-            console.log(button.id);
+            clearCalulator();
+            updateDisplay();
+            console.log(calculator);
         }
     })
 })
