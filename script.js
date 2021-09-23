@@ -18,12 +18,26 @@ function divide(a, b) {
 }
 
 function operate(a, b, operator) {
-    return operator(a, b);
+    switch (operator) {
+        case 'add':
+            return add(a, b);
+        case 'subtract':
+            return subtract(a, b);
+        case 'multiply':
+            return multiply(a, b);
+        case 'divide':
+            if (b === 0) {
+                return 'nah.';
+            } else {
+                return divide(a, b);
+            }
+    }
 }
+
 
 // Create calculator object
 const calculator = {
-    displayValue: '0',
+    displayValue: '',
     firstOperand: null,
     waitingForSecondOperand: false,
     operator: null,
@@ -36,8 +50,7 @@ function updateDisplay() {
 }
 
 function inputDigit(digit) {
-    // Update calculator display with new number
-    calculator.displayValue = (calculator.displayValue === '0' ? digit : calculator.displayValue + digit);
+    calculator.displayValue = (calculator.displayValue === '' ? digit : calculator.displayValue + digit);
 }
 
 function inputDecimal() {
@@ -47,16 +60,36 @@ function inputDecimal() {
     }
 }
 
+function clearCalulator() {
+
+}
+
+function handleOperator(nextOperator) {
+    if (calculator.operator === null && calculator.displayValue !== '') {
+        calculator.firstOperand = parseFloat(calculator.displayValue);
+        calculator.displayValue = '';
+        calculator.operator = nextOperator;
+        // calculator.waitingForSecondOperand = true;
+    } else if (calculator.operator) {
+        const result = operate(calculator.firstOperand, calculator.displayValue, calculator.operator);
+        calculator.displayValue = result;
+        calculator.firstOperand = result;
+    }
+}
+
 // Respond to different types of buttons
 const buttons = document.querySelectorAll('button');
 buttons.forEach(button => {
     button.addEventListener('click', () => {
         if (button.classList.contains('num')) {
             inputDigit(button.textContent);
+            console.log(calculator);
             updateDisplay();
         }
         if (button.classList.contains('operator')) {
-            console.log(button.id);
+            handleOperator(button.id);
+            console.log(calculator);
+            updateDisplay();
         }
         if (button.id === 'decimal') {
             inputDecimal();
