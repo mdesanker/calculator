@@ -20,3 +20,41 @@ function divide(a, b) {
 function operate(a, b, operator) {
     return operator(a, b);
 }
+
+function clear() {
+    display.textContent = '';
+    equationDisplay.textContent = '';
+}
+
+function addToDisplay(val) {
+    let current = display.textContent;
+    let update = current + val;
+    display.textContent = update;
+}
+
+// Function to update the equation output
+function addToEquationDisplay(val) {
+    let currentDisplay = document.querySelector('#calculation').textContent
+    let newDisplay = currentDisplay + val;
+    equationDisplay.textContent = newDisplay;
+}
+
+const display = document.querySelector('#display');
+const equationDisplay = document.querySelector('#calculation')
+const clearButton = document.querySelector('#clear');
+
+// Check for number button press and get textContent of respective button
+const numButtons = document.querySelectorAll('button.num');
+numButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        addToDisplay(button.textContent);
+        console.log(button.textContent);  // Just output to console for now
+    })
+});
+
+// Check for operator button press and get textContent of respective button
+const operButtons = document.querySelectorAll('button.operator');
+console.log(operButtons);
+
+// displayOutput('blah blah')
+equationDisplay.textContent = ''
