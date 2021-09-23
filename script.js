@@ -37,6 +37,7 @@ function clearData() {
     entry2 = '';
     operation = '';
     display.textContent = '';
+    continueCalc = false;
 }
 
 function clearDisplay() {
@@ -44,17 +45,21 @@ function clearDisplay() {
 }
 
 function addToDisplay(val) {
+    if (entry1 === result) {
+        clearDisplay();
+    }
     let current = display.textContent;
     let update = current + val;
     display.textContent = update;
 }
 
-let entry1
-let operation
-let entry2
+let entry1;
+let operation;
+let entry2;
+let result;
 
 const display = document.querySelector('#display');
-const equationDisplay = document.querySelector('#calculation')
+const equationDisplay = document.querySelector('#calculation');
 
 // Clear button functionality
 const clearButton = document.querySelector('#clear');
@@ -65,7 +70,6 @@ const numButtons = document.querySelectorAll('button.num');
 numButtons.forEach(button => {
     button.addEventListener('click', () => {
         addToDisplay(button.textContent);
-        console.log(button.textContent);  // Just output to console for now
     })
 });
 
@@ -101,21 +105,41 @@ decimalButton.addEventListener('click', () => {
 
 //////////////////////////////////////////////////////////////////////////////
 
-// Might need to merge above functions to get answer to compute after 2 numbers have been entered
-const equateButtons = document.querySelectorAll('.oper');
-equateButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        if (display.textContent && entry1 && operation) {  // Number on display and number already stored
-            entry2 = parseFloat(display.textContent);
-            display.textContent = operate(entry1, entry2, operation);
-            entry1 = display.textContent;
-            operation = button.id;
-            // Need to make sure next button press starts entry2, not tacks on
-        } else if (display.textContent) {  // Only number on screen so far
-            entry1 = parseFloat(display.textContent);
-            console.log(entry1);
-            operation = button.id;
-            clearDisplay();
-        }
-    })
-})
+// // Might need to merge above functions to get answer to compute after 2 numbers have been entered
+// const equateButtons = document.querySelectorAll('.oper');
+// equateButtons.forEach(button => {
+//     button.addEventListener('click', () => {
+//         // First operation condition
+//         if (!entry1) {
+//             entry1 = parseFloat(display.textContent);
+//             operation = button.id;
+//             clearDisplay();
+//             console.log('Entry1', entry1);
+//             console.log('Operation', operation);
+//         } else if (entry1 && display.textContent) {
+//             entry2 = parseFloat(display.textContent);
+//             clearDisplay();
+//             console.log('Entry2', entry2);
+//             result = operate(entry1, entry2, operation);
+//             display.textContent = result;
+//             console.log('Result', result)
+//             operation = button.id
+//             entry1 = result;
+//             console.log('NewEntry1', entry1);
+//             entry2 = '';
+//             console.log('NewEntry2', entry2);
+//             console.log('NewOp', operation);
+//             console.log('Result', result);
+//         } else if (!entry2 && result === entry1) {
+//             entry2 = parseFloat(display.textContent);
+//             console.log('NewEntry2', entry2);
+//             result = operate(entry1, entry2, operation);
+//             display.textContent = result;
+//             console.log('Result', result)
+//         }
+//     })
+// })
+
+/////////////////////////////////////////////////////////////////////////
+// Separate equal and operator buttons for simplicity (hopefully)
+
