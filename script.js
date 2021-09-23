@@ -17,8 +17,18 @@ function divide(a, b) {
     return a / b;
 }
 
+// function operate(a, b, operator) {
+//     return operator(a, b);
+// }
+
+// Operate function using switch statement
 function operate(a, b, operator) {
-    return operator(a, b);
+    switch (operator) {
+        case 'add': return add(a, b);
+        case 'subtract': return subtract(a, b);
+        case 'multiply': return multiply(a, b);
+        case 'divide': return divide(a, b);
+    }
 }
 
 function clear() {
@@ -57,7 +67,7 @@ const operButtons = document.querySelectorAll('button.operator');
 operButtons.forEach(button => {
     button.addEventListener('click', () => {
         if (display.textContent) {
-            entry1 = display.textContent;
+            entry1 = parseInt(display.textContent);
             operation = button.id;
             console.log(entry1, operation);
             clear();
@@ -69,10 +79,7 @@ operButtons.forEach(button => {
 const equalButton = document.querySelector('#equals');
 equalButton.addEventListener('click', () => {
     if (display.textContent) { // Check whether there has been any input since an operator button pressed
-        entry2 = display.textContent;
-        console.log(entry2);
-        console.log(entry1);
-        console.log(operation, typeof operation);
-        console.log(operate(entry1, entry2, operation)); // Can't call the operation function when operation is a string...
+        entry2 = parseInt(display.textContent);
+        display.textContent = operate(entry1, entry2, operation);
     }
 })
