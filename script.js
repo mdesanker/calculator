@@ -23,7 +23,12 @@ function operate(a, b, operator) {
         case 'add': return add(a, b);
         case 'subtract': return subtract(a, b);
         case 'multiply': return multiply(a, b);
-        case 'divide': return divide(a, b);
+        case 'divide':
+            if (entry2 === 0) {  // Check if divide by 0
+                return "NO! Bad!"
+            } else {
+                return divide(a, b);
+            }
     }
 }
 
@@ -64,24 +69,45 @@ numButtons.forEach(button => {
     })
 });
 
-// Check for operator button press and get id of respective button
-const operButtons = document.querySelectorAll('button.operator');
-operButtons.forEach(button => {
+// Add decimal button functionality
+
+// // Check for operator button press and get id of respective button
+// const operButtons = document.querySelectorAll('button.operator');
+// operButtons.forEach(button => {
+//     button.addEventListener('click', () => {
+//         if (display.textContent) {  // If already number in display (from previous calc), use that as the first entry in next calculation
+//             entry1 = parseInt(display.textContent);
+//             operation = button.id;
+//             console.log(entry1, operation);
+//             clearDisplay();
+//         }
+//     })
+// })
+
+// // Check for equals button press and output answer
+// const equalButton = document.querySelector('#equals');
+// equalButton.addEventListener('click', () => {
+//     if (display.textContent) { // Check whether there has been any input since an operator button pressed
+//         entry2 = parseInt(display.textContent);
+//         display.textContent = operate(entry1, entry2, operation);
+//     }
+// })
+
+// Might need to merge above functions to get answer to compute after 2 numbers have been entered
+const equateButtons = document.querySelectorAll('.oper');
+equateButtons.forEach(button => {
     button.addEventListener('click', () => {
-        if (display.textContent) {  // If already number in display (from previous calc), use that as the first entry in next calculation
-            entry1 = parseInt(display.textContent);
+        if (display.textContent && entry1 && operation) {  // Number on display and number already stored
+            entry2 = parseInt(display.textContent);
+            display.textContent = operate(entry1, entry2, operation);
+            entry1 = display.textContent;
             operation = button.id;
-            console.log(entry1, operation);
+            // Need to make sure next button press starts entry2, not tacks on
+        } else if (display.textContent) {  // Only number on screen so far
+            entry1 = parseInt(display.textContent);
+            console.log(entry1);
+            operation = button.id;
             clearDisplay();
         }
     })
-})
-
-// Check for equals button press and output answer
-const equalButton = document.querySelector('#equals');
-equalButton.addEventListener('click', () => {
-    if (display.textContent) { // Check whether there has been any input since an operator button pressed
-        entry2 = parseInt(display.textContent);
-        display.textContent = operate(entry1, entry2, operation);
-    }
 })
